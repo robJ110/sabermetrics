@@ -1,6 +1,0 @@
-{
-    "watch": [
-        "src"
-    ],
-    "exec": "clear && yarn serve"
-}
