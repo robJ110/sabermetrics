@@ -4,14 +4,14 @@
 <body>
 
     <h1>Hello World4!</h1>
-    <a id="database" href="viewDataBase.html">My Favorite Shark</a>
-    <script src="package.json"></script>
-    <script src="/src/firebase/firebaseConfig.js"></script>
-    <script src="/src/firebase/testFirebase.js"></script>
-
+    <a id="database" href="src/html/playerStats.html">Player Stats</a>
+    <script type="module" src="/src/firebase/firestoreConnection.js"></script>
+    <script type="module" src="/src/firebase/firebaseFunctions.js"></script>
+    <script type="module" src="/src/eventListeners/getPlayers.js"></script>
     <script src="/src/testScripts.js"></script>
     
 
     <button onclick = "helloWorld()" > Click Me </button>
-    <button onclick = "testFirebase()" > test FireStore </button>
+    <button id="extra"> Extra </button>
+    <button id="players"> list Players </button>
 </body>

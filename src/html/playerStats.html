@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Player Stats</title>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"></script>
+    <script type="module" src="/src/eventListeners/createStatsTable.js"></script>
+</head>
+<body>
+    <h1>Player Stats</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Team</th>
+                <th>Caps Hit</th>
+                <th>Caps Thrown</th>
+                <th>Rebuttals Hit</th>
+                <th>Rebuttals Thrown</th>
+                <th>Record</th>
+                <th>Al Kisses</th>
+            </tr>
+        </thead>
+        <tbody id="player-stats-table">
+            <!-- Data will be dynamically inserted here -->
+        </tbody>
+    </table>
+</body>
+</html>
