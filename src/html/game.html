@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="/src/eventListeners/shotTaken.js"></script>
+    <script type="module" src="/src/eventListeners/updateGameNames.js"></script>
+    <title>Scoreboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .team {
+            margin-bottom: 20px;
+        }
+        .player {
+            margin-bottom: 10px;
+        }
+        .score {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Scoreboard</h1>
+    <div class="team" id="team1">
+        <h2>Team 1 <span style="font-weight: normal;">: <span class="score" id="team1-total-score">0</span></span></h2>
+        <div class="player" id="team1-player1">
+            <span id="team1-player1-name-display">Player 1</span>: 
+            <span class="score" id="team1-player1-score">0</span>
+        </div>
+        <div class="player" id="team1-player2">
+            <span id="team1-player2-name-display">Player 2</span>: 
+            <span class="score" id="team1-player2-score">0</span>
+        </div>
+    </div>
+
+    <div class="team" id="team2">
+        <h2>Team 2 <span style="font-weight: normal;">: <span class="score" id="team2-total-score">0</span></span></h2>
+        <div class="player" id="team2-player1">
+            <span id="team2-player1-name-display">Player 1</span>: 
+            <span class="score" id="team2-player1-score">0</span>
+        </div>
+        <div class="player" id="team2-player2">
+            <span id="team2-player2-name-display">Player 2</span>: 
+            <span class="score" id="team2-player2-score">0</span>
+        </div>
+    </div>
+    <div>
+        <label for="player-select">Current Player:</label>
+        <select id="player-select">
+            <option id="t1p1Option" value="team1-player1">Team 1 - Player 1</option>
+            <option id="t2p1Option" value="team2-player1">Team 2 - Player 1</option>
+            <option id="t1p2Option" value="team1-player2">Team 1 - Player 2</option>
+            <option id="t2p2Option" value="team2-player2">Team 2 - Player 2</option>
+        </select>
+        <button id="makeShot">Make Shot</button>
+        <button id="missShot">Miss Shot</button>
+    </div>
+
+<div>
+    <label for="team1-player1-name">Team 1 - Player 1:</label>
+    <select id="team1-player1-name">
+        <option value="option 1">Player 1</option>
+        <option value="option 2">Player A</option>
+        <option value="option 3">Player X</option>
+    </select>
+</div>
+<div>
+    <label for="team1-player2-name">Team 1 - Player 2:</label>
+    <select id="team1-player2-name">
+        <option value="option 2">Player 2</option>
+        <option value="option B">Player B</option>
+        <option value="option Y">Player Y</option>
+    </select>
+</div>
+<div>
+    <label for="team2-player1-name">Team 2 - Player 1:</label>
+    <select id="team2-player1-name">
+        <option value="option 1">Player 1</option>
+        <option value="option C">Player C</option>
+        <option value="option Z">Player Z</option>
+    </select>
+</div>
+<div>
+    <label for="team2-player2-name">Team 2 - Player 2:</label>
+    <select id="team2-player2-name">
+        <option value="option 2">Player 2</option>
+        <option value="option D">Player D</option>
+        <option value="option W">Player W</option>
+    </select>
+</div>
+</body>
+</html>
