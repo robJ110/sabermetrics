@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { collection, getDocs, addDoc, Timestamp, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
-import { query, orderBy, limit, where, onSnapshot } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { collection, getDoc, getDocs, addDoc, Timestamp, doc, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
+import { query, orderBy, limit, where, onSnapshot, runTransaction } from "https://www.gstatic.com/firebasejs/9.1.1/firebase-firestore.js"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,5 +20,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-export { app, db, collection, getDocs, Timestamp, addDoc, doc, updateDoc };
-export { query, orderBy, limit, where, onSnapshot };
+export { app, db, collection, getDoc, getDocs, Timestamp, addDoc, doc, updateDoc, increment,setDoc };
+export { query, orderBy, limit, where, onSnapshot, runTransaction };

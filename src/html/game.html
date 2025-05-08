@@ -3,47 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/game.css">
+    <script type="module" src="/src/firebase/firestoreConnection.js"></script>
+    <script type="module" src="/src/firebase/firebaseFunctions.js"></script>
     <script type="module" src="/src/eventListeners/shotTaken.js"></script>
     <script type="module" src="/src/eventListeners/updateGameNames.js"></script>
+    <script type="module" src="/src/eventListeners/makeNewGame.js"></script>
     <title>Scoreboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .team {
-            margin-bottom: 20px;
-        }
-        .player {
-            margin-bottom: 10px;
-        }
-        .score {
-            font-weight: bold;
-        }
-    </style>
 </head>
 <body>
-    <h1>Scoreboard</h1>
+    <h1 id="scoreboard">Scoreboard</h1>
     <div class="team" id="team1">
-        <h2>Team 1 <span style="font-weight: normal;">: <span class="score" id="team1-total-score">0</span></span></h2>
+        <div class="teamName"> Team Jacob<span style="font-weight: normal;">: <span class="score" id="team1-total-score">0</span></span></div>
+
+        <div id="team1-beer-pass" class="beer-pass-button" onclick="handleTrueFalseClick('team1-beer-pass')">
+            <label id="team1-beer-pass-label">Beer Pass used</label>
+        </div>
+
         <div class="player" id="team1-player1">
             <span id="team1-player1-name-display">Player 1</span>: 
             <span class="score" id="team1-player1-score">0</span>
+            <span class="percentage" id="team1-player1-percentage">0</span>%
         </div>
         <div class="player" id="team1-player2">
             <span id="team1-player2-name-display">Player 2</span>: 
             <span class="score" id="team1-player2-score">0</span>
+            <span class="percentage" id="team1-player2-percentage">0</span>%
         </div>
     </div>
 
     <div class="team" id="team2">
-        <h2>Team 2 <span style="font-weight: normal;">: <span class="score" id="team2-total-score">0</span></span></h2>
+        <div class="teamName"> <span class="score" id="team2-total-score">0</span></span> :Team 2  <span style="font-weight: normal;"></div>
+        
+        <div id="team2-beer-pass" class="beer-pass-button" onclick="handleTrueFalseClick('team2-beer-pass')">
+            <label id="team2-beer-pass-label">Beer Pass used</label>
+        </div>
+
         <div class="player" id="team2-player1">
             <span id="team2-player1-name-display">Player 1</span>: 
             <span class="score" id="team2-player1-score">0</span>
+            <span class="percentage" id="team2-player1-percentage">0</span>%
         </div>
         <div class="player" id="team2-player2">
             <span id="team2-player2-name-display">Player 2</span>: 
             <span class="score" id="team2-player2-score">0</span>
+            <span class="percentage" id="team2-player2-percentage">0</span>%
         </div>
     </div>
     <div>
@@ -54,41 +58,47 @@
             <option id="t1p2Option" value="team1-player2">Team 1 - Player 2</option>
             <option id="t2p2Option" value="team2-player2">Team 2 - Player 2</option>
         </select>
-        <button id="makeShot">Make Shot</button>
-        <button id="missShot">Miss Shot</button>
     </div>
+    <button class="shotBtn" id="makeShot">Make Shot</button>
+    <button class="shotBtn" id="missShot">Miss Shot</button>
 
 <div>
-    <label for="team1-player1-name">Team 1 - Player 1:</label>
+    <label class = "player-select-names" for="team1-player1-name">Team 1 - Player 1:</label>
     <select id="team1-player1-name">
-        <option value="option 1">Player 1</option>
-        <option value="option 2">Player A</option>
-        <option value="option 3">Player X</option>
     </select>
 </div>
-<div>
-    <label for="team1-player2-name">Team 1 - Player 2:</label>
+<div >
+    <label class = "player-select-names" for="team1-player2-name">Team 1 - Player 2:</label>
     <select id="team1-player2-name">
-        <option value="option 2">Player 2</option>
-        <option value="option B">Player B</option>
-        <option value="option Y">Player Y</option>
     </select>
 </div>
 <div>
-    <label for="team2-player1-name">Team 2 - Player 1:</label>
+    <label class = "player-select-names" for="team2-player1-name">Team 2 - Player 1:</label>
     <select id="team2-player1-name">
-        <option value="option 1">Player 1</option>
-        <option value="option C">Player C</option>
-        <option value="option Z">Player Z</option>
     </select>
 </div>
 <div>
-    <label for="team2-player2-name">Team 2 - Player 2:</label>
+    <label class = "player-select-names" for="team2-player2-name">Team 2 - Player 2:</label>
     <select id="team2-player2-name">
-        <option value="option 2">Player 2</option>
-        <option value="option D">Player D</option>
-        <option value="option W">Player W</option>
     </select>
 </div>
+
+<!--
+<div class="tenor-gif-embed" data-postid="18403386581156044088" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/dua-lipa-fearythings-drinking-seth-myers-gif-18403386581156044088">Dua Lipa Fearythings GIF</a>from <a href="https://tenor.com/search/dua+lipa-gifs">Dua Lipa GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="18464041" data-share-method="host" data-aspect-ratio="0.759375" data-width="100%"><a href="https://tenor.com/view/stepford-wife-gif-18464041">Stepford Wife GIF</a>from <a href="https://tenor.com/search/stepford+wife-gifs">Stepford Wife GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="15099676" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/gif-beer-shotgun-girl-drinking-gif-15099676">Gif Beer GIF</a>from <a href="https://tenor.com/search/gif-gifs">Gif GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="14632628" data-share-method="host" data-aspect-ratio="1.16364" data-width="100%"><a href="https://tenor.com/view/bikini-bounce-beer-shake-gif-14632628">Bikini Bounce GIF</a>from <a href="https://tenor.com/search/bikini-gifs">Bikini GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="15094446" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/blow-beer-shotgun-epic-beer-splash-gif-15094446">Blow Beer GIF</a>from <a href="https://tenor.com/search/blow-gifs">Blow GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="13571487" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/golfing-golf-humor-kandaar-beer-gif-13571487">Golfing Humor GIF</a>from <a href="https://tenor.com/search/golfing-gifs">Golfing GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="13582212531135165654" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/beer-chug-drinking-drink-thirsty-gif-13582212531135165654">Beer Chug GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="14923390" data-share-method="host" data-aspect-ratio="0.5625" data-width="100%"><a href="https://tenor.com/view/beer-drinking-girl-party-time-shotgun-bruschi-gif-14923390">Beer Drinking Girl GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div class="tenor-gif-embed" data-postid="4748844" data-share-method="host" data-aspect-ratio="1.78" data-width="100%"><a href="https://tenor.com/view/hot-gif-4748844">Hot GIF</a>from <a href="https://tenor.com/search/hot-gifs">Hot GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+-->
+<script>
+    const handleTrueFalseClick = (teamID) => {
+        console.log(`${teamID} button clicked`);
+        // Add your logic here for handling the click event
+    };
+</script>
 </body>
 </html>

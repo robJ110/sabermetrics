@@ -1,0 +1,70 @@
+html {
+    max-width: 38rem;
+    padding: 2rem;
+    margin: auto;
+    line-height: 1.5rem;
+    font-size: 24px;
+  }
+
+
+body {
+    font-family: Arial, sans-serif;
+    background: url('../../img/staticBeer.jpg') center center fixed;
+    text-align: center;
+    
+}
+.team {
+    margin-bottom: 20px;
+}
+.player {
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.player-select-names{
+    background-color: #f9f9f9;
+    padding: 5px;
+   /* border-radius: 10px;*/
+}
+
+.teamName {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 0px;
+}
+.score {
+    font-weight: bold;
+}
+
+.team {
+    display: inline-block;
+    padding-right: 20px;
+    padding-bottom: 0px;;
+}
+
+    .beer-pass-button {
+        border: 1px solid #ccc;
+        padding: 5px;;
+        margin-bottom: 15px;;
+        cursor: pointer;
+        display: inline-block;
+        background-color: #f9f9f9;
+        text-align: center;
+    }
+
+    .beer-pass-button:hover {
+        background-color: #e0e0e0;
+    }
+
+    .shotBtn{
+        font-size: 24px;
+        border: 1px solid #ccc;
+        padding: 20px;;
+        margin-bottom: 15px;;
+        cursor: pointer;
+        display: inline-block;
+        background-color: #f9f9f9;
+        text-align: center;
+    }

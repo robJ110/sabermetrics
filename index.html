@@ -1,18 +1,45 @@
-<head></head>
+<head>
+    <link rel="stylesheet" href="/src/css/index.css">
+</head>
 
 
 <body>
-
-    <h1>Hello World4!</h1>
-    <a id="database" href="src/html/playerStats.html">Player Stats</a>
-    <a id="game" href="src/html/game.html">Start a game</a>
     <script type="module" src="/src/firebase/firestoreConnection.js"></script>
     <script type="module" src="/src/firebase/firebaseFunctions.js"></script>
-    <script type="module" src="/src/eventListeners/getPlayers.js"></script>
     <script src="/src/testScripts.js"></script>
+
+
+    <h1>Jacobian Caps</h1>
+    <a class="button" id="database" href="src/html/playerStats.html">Player Stats</a>
+    <a class="button" id="game" href="src/html/game.html">Start a game</a>
+
+    <select id="gameDropdown">
+        <option value="" disabled selected>Select a game</option>
+    </select>
+
+    <script type="module">
+        import { db, collection, getDocs } from "/src/firebase/firestoreConnection.js";
+
+        const gamesCollection = collection(db, "games");
+        const dropdown = document.getElementById("gameDropdown");
+
+        async function populateDropdown() {
+            try {
+                const querySnapshot = await getDocs(gamesCollection);
+                querySnapshot.forEach((doc) => {
+                    const gameNumber = doc.data().gameNumber;
+                    const option = document.createElement("option");
+                    option.value = gameNumber;
+                    option.textContent = `Game ${gameNumber}`;
+                    dropdown.appendChild(option);
+                });
+            } catch (error) {
+                console.error("Error fetching games: ", error);
+            }
+        }
+
+        populateDropdown();
+    </script>
     
 
-    <button onclick = "helloWorld()" > Click Me </button>
-    <button id="extra"> Extra </button>
-    <button id="players"> list Players </button>
 </body>

@@ -1,3 +1,5 @@
+import { updatePlayerShot } from "../firebase/firebaseFunctions.js";
+
 const makeShotBtn = document.getElementById('makeShot');
 const missedShotBtn = document.getElementById('missShot');
 const currPlayer = document.getElementById('player-select');
@@ -8,25 +10,32 @@ makeShotBtn.addEventListener('click', function() {
     const playerSelect = document.getElementById('player-select');
     const options = Array.from(playerSelect.options);
     const currentIndex = options.findIndex(option => option.value === currPlayer.value);
-    const nextIndex = (currentIndex + 1) % options.length;
-    playerSelect.selectedIndex = nextIndex;
+  
     
+
+    // Update the database with the made shot
+    let selectedPlayerName = options[currentIndex].text
+    selectedPlayerName = selectedPlayerName.replace(/\s+/g, "");
+    updatePlayerShot(selectedPlayerName,previousShotMade,true);
+  
     // Update the shot decteor for potential point
     previousShotMade = true;
 
-    // ------------- TODO: Update the database with the made shot --------------------
-    // const player = currPlayer.value;
-    // const playerRef = db.collection('players').doc(player);
-    // playerRef.update({
-    //     madeShots: firebase.firestore.FieldValue.increment(1)
-    // })
-    // .then(() => {
-    //     console.log('Made shot updated successfully!');
-    // })
-    // .catch((error) => {
-    //     console.error('Error updating made shot: ', error);
-    // });
+    // Go to the next player
+    const nextIndex = (currentIndex + 1) % options.length;
+    playerSelect.selectedIndex = nextIndex;
 
+
+
+
+
+// Select random number
+// Grab that gif 
+// Display gif
+// Wait 2 seconds
+// Hide gif
+
+  
 });
 
 
@@ -38,6 +47,11 @@ missedShotBtn.addEventListener('click', function() {
     const nextPlayerIndex = (currentIndex + 1) % options.length;
     const lastPlayerIndex = (currentIndex + 3) % options.length;
 
+    // Give the player a point if they made the shot
+    if (previousShotMade) {
+        const playerScore = document.getElementById(options[lastPlayerIndex].value + '-score');
+        playerScore.textContent = parseInt(playerScore.textContent) + 1;
+    }
 
     // The other team gets a point
     if (previousShotMade) {
@@ -62,11 +76,17 @@ missedShotBtn.addEventListener('click', function() {
         }
     }
 
+// Go to next player
+playerSelect.selectedIndex = nextPlayerIndex;
+// Update the shot decteor for potential point
+previousShotMade = false;
 
-    // Go to next player
-    playerSelect.selectedIndex = nextPlayerIndex;
-    // Update the shot decteor for potential point
-    previousShotMade = false;
+    // Update player data
+    let selectedPlayerName = options[currentIndex].text
+    selectedPlayerName = selectedPlayerName.replace(/\s+/g, "");
+    updatePlayerShot(selectedPlayerName,previousShotMade,false);
+
+    
 
 });
 
