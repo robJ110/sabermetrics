@@ -17,5 +17,13 @@ async function createNewGame() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    createNewGame();  
+    const gameProm = createNewGame();  
+    gameProm.then((gameObj) => {
+    try {
+        localStorage.setItem("gameObj",JSON.stringify(gameObj));
+        }
+        catch (error) {
+            console.error("Error setting local storage: ", error);
+        }
+    });
 });

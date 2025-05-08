@@ -242,4 +242,104 @@ class Game {
 
 }
 
+
+// Function to update a specific property in Firestore
+async function updateGamePropertyInFirestore(gameId, property, value) {
+    console.log(`Updating property '${property}' to '${value}' for game ID: ${gameId}`);
+    
+    const gameRef = doc(db, 'games', gameId);
+    const updateData = {};
+    updateData[property] = value;
+
+    try {
+        await updateDoc(gameRef, updateData);
+        console.log(`Property '${property}' updated successfully in Firestore`);
+    } catch (error) {
+        console.error(`Error updating property '${property}' in Firestore:`, error);
+    }
+}
+
+// Example functions for each property
+async function updateT1Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1Score', value);
+}
+
+async function updateT2Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2Score', value);
+}
+
+async function updateT1BeerPass(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1BeerPass', value);
+}
+
+async function updateT2BeerPass(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2BeerPass', value);
+}
+
+async function updateT1P1PlayerId(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p1PlayerId', value);
+}
+
+async function updateT1P2PlayerId(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p2PlayerId', value);
+}
+
+async function updateT2P1PlayerId(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p1PlayerId', value);
+}
+
+async function updateT2P2PlayerId(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p2PlayerId', value);
+}
+
+async function updateT1P1Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p1Score', value);
+}
+
+async function updateT1P2Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p2Score', value);
+}
+
+async function updateT2P1Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p1Score', value);
+}
+
+async function updateT2P2Score(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p2Score', value);
+}
+
+async function updateT1P1GayUsed(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p1GayUsed', value);
+}
+
+async function updateT1P2GayUsed(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't1p2GayUsed', value);
+}
+
+async function updateT2P1GayUsed(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p1GayUsed', value);
+}
+
+async function updateT2P2GayUsed(gameId, value) {
+    await updateGamePropertyInFirestore(gameId, 't2p2GayUsed', value);
+}
+
 export {Game};
+export {
+    updateT1Score,
+    updateT2Score,
+    updateT1BeerPass,
+    updateT2BeerPass,
+    updateT1P1PlayerId,
+    updateT1P2PlayerId,
+    updateT2P1PlayerId,
+    updateT2P2PlayerId,
+    updateT1P1Score,
+    updateT1P2Score,
+    updateT2P1Score,
+    updateT2P2Score,
+    updateT1P1GayUsed,
+    updateT1P2GayUsed,
+    updateT2P1GayUsed,
+    updateT2P2GayUsed
+};

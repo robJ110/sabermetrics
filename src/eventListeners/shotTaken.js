@@ -1,4 +1,4 @@
-import { updatePlayerShot } from "../firebase/firebaseFunctions.js";
+import { updatePlayerShot,getPlayerPercentage } from "../firebase/firebaseFunctions.js";
 
 const makeShotBtn = document.getElementById('makeShot');
 const missedShotBtn = document.getElementById('missShot');
@@ -11,23 +11,22 @@ makeShotBtn.addEventListener('click', function() {
     const options = Array.from(playerSelect.options);
     const currentIndex = options.findIndex(option => option.value === currPlayer.value);
   
-    
 
     // Update the database with the made shot
     let selectedPlayerName = options[currentIndex].text
     selectedPlayerName = selectedPlayerName.replace(/\s+/g, "");
-    updatePlayerShot(selectedPlayerName,previousShotMade,true);
-  
+    updatePlayerShot(selectedPlayerName,previousShotMade,true).then((percentage) => {
+        console.log("Player percentage: ", percentage);
+        const elemId = options[currentIndex].value + '-percentage';
+        document.getElementById(elemId).textContent = percentage;
+    });
+
     // Update the shot decteor for potential point
     previousShotMade = true;
 
     // Go to the next player
     const nextIndex = (currentIndex + 1) % options.length;
     playerSelect.selectedIndex = nextIndex;
-
-
-
-
 
 // Select random number
 // Grab that gif 
@@ -84,9 +83,11 @@ previousShotMade = false;
     // Update player data
     let selectedPlayerName = options[currentIndex].text
     selectedPlayerName = selectedPlayerName.replace(/\s+/g, "");
-    updatePlayerShot(selectedPlayerName,previousShotMade,false);
-
-    
+    updatePlayerShot(selectedPlayerName,previousShotMade,false).then((percentage) => {
+        console.log("Player percentage: ", percentage);
+        const elemId = options[currentIndex].value + '-percentage';
+        document.getElementById(elemId).textContent = percentage;
+    });
 
 });
 

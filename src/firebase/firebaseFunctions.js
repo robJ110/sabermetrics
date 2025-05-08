@@ -1,4 +1,4 @@
-import {getDoc, getDocs, collection,db,doc,updateDoc,increment, runTransaction} from './firestoreConnection.js';
+import {getDoc, getDocs, collection,db,doc,updateDoc,increment} from './firestoreConnection.js';
 
 // Get a list of players from your database
 async function getPlayers() {
@@ -104,6 +104,24 @@ async function populateDefaultData() {
 });
 }
 
+
+async function getPlayerPercentage(playerId) {
+  const playerRef = doc(db,'Players',playerId);
+  let percentage = 0;
+  await getDoc(playerRef).then((doc) => {
+      if (doc.exists()) {
+          const playerData = doc.data();
+          console.log(playerData);
+          const makes = playerData.capsHit;
+          const attempts = playerData.capsThrown; 
+          percentage = Math.round((makes / attempts) * 100);
+          console.log(`percentage: '${percentage}' make: '${makes}' miss: ${attempts}, playerId: ${playerId}`);
+      } 
+     
+});
+return percentage;
+}
+
 async function updatePlayerShot(playerName, previousShotMade, isMade) {
   
   const player = playerName;
@@ -114,7 +132,7 @@ async function updatePlayerShot(playerName, previousShotMade, isMade) {
   // Rebuttal cap made
   if (previousShotMade && isMade) {
     await updateDoc(playerRef, {  
-      madeShots: increment(1),
+      capsHit: increment(1),
       capsThrown: increment(1),
       rebuttalThrown:increment(1),
       rebuttalHit:increment(1)
@@ -148,6 +166,12 @@ async function updatePlayerShot(playerName, previousShotMade, isMade) {
       console.error('Error updating made rebuttal: ', error);
   });
   }
+
+let rPercentage = 0;
+  await getPlayerPercentage(playerName).then((percentage) => {    
+    rPercentage = percentage;
+  });
+  return rPercentage
 }
 
 
@@ -164,4 +188,4 @@ async function generateNextGameNumber() {
     return lastGameNum;
 }
 
-export { getPlayers, getPlayerTable, populateDefaultData, listPlayers, updatePlayerShot, generateNextGameNumber };
+export { getPlayers, getPlayerTable, populateDefaultData, listPlayers, updatePlayerShot, generateNextGameNumber, getPlayerPercentage };
