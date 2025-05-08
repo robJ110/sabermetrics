@@ -68,3 +68,26 @@ body {
         background-color: #f9f9f9;
         text-align: center;
     }
+
+    /* .test {
+        position: fixed;
+        top: 10%;
+    } */
+
+
+    #gifActive {
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        z-index: 9999;
+    }
+
+    #gif1, #gif2, #gif3, #gif4, #gif5, #gif6, #gif7, #gif8, #gif9, #gif10, #gif11, #gif12, #gif13,#gifGuy {
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        z-index: 9999;
+        display: none !important;
+    }
+
+    

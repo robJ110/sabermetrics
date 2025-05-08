@@ -111,11 +111,9 @@ async function getPlayerPercentage(playerId) {
   await getDoc(playerRef).then((doc) => {
       if (doc.exists()) {
           const playerData = doc.data();
-          console.log(playerData);
           const makes = playerData.capsHit;
           const attempts = playerData.capsThrown; 
           percentage = Math.round((makes / attempts) * 100);
-          console.log(`percentage: '${percentage}' make: '${makes}' miss: ${attempts}, playerId: ${playerId}`);
       } 
      
 });
@@ -175,6 +173,61 @@ let rPercentage = 0;
 }
 
 
+async function undoPlayerShot(playerName, isMade, previousShotMade) {
+  const playerRef = doc(db,'Players',playerName);
+  
+console.log(`Undoing shot for player: ${playerName}, Shot made: ${isMade}, Is rebuttal: ${previousShotMade}.`);
+
+previousShotMade = previousShotMade === 'true' ? true : false;
+isMade = isMade === '1' ? true : false;
+
+console.log(`Undoing shot for player: ${playerName}, Shot made: ${isMade}, Is rebuttal: ${previousShotMade}. In undoPlayerShot`);
+
+  // Rebuttal cap made
+  if (previousShotMade && isMade) {
+    await updateDoc(playerRef, {  
+      capsHit: increment(-1),
+      capsThrown: increment(-1),
+      rebuttalThrown:increment(-1),
+      rebuttalHit:increment(-1)
+  })
+    
+  }
+  // Normal Cap made
+  else if (!previousShotMade && isMade){
+    await updateDoc(playerRef, {
+      capsHit: increment(-1),
+      capsThrown: increment(-1)
+  })
+  }
+  // Rebuttal Shot missed
+  else if(previousShotMade && !isMade) {
+    await updateDoc(playerRef, {
+      capsThrown: increment(-1),
+      rebuttalThrown:increment(-1)
+  })
+  .catch((error) => {
+      console.error('Error updating made rebuttal: ', error);
+  });
+  }
+  // Normal Cap missed
+  else if (!previousShotMade && !isMade) {
+    await updateDoc(playerRef, {
+      capsThrown: increment(-1)
+  })
+  .catch((error) => {
+      console.error('Error updating made rebuttal: ', error);
+  });
+  }
+
+let rPercentage = 0;
+  await getPlayerPercentage(playerName).then((percentage) => {    
+    rPercentage = percentage;
+  });
+  return rPercentage
+}
+
+
 async function generateNextGameNumber() {
   const counterRef = doc(db, "collectionCounter", "counter");
   const counterSnapshot = await getDoc(counterRef);
@@ -188,4 +241,4 @@ async function generateNextGameNumber() {
     return lastGameNum;
 }
 
-export { getPlayers, getPlayerTable, populateDefaultData, listPlayers, updatePlayerShot, generateNextGameNumber, getPlayerPercentage };
+export { getPlayers, getPlayerTable, populateDefaultData, listPlayers, updatePlayerShot, generateNextGameNumber, getPlayerPercentage, undoPlayerShot };

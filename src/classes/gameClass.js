@@ -46,7 +46,7 @@ class Game {
             t2p2GayUsed: this.t2p2GayUsed, 
         })
         .then(() => {
-            console.log("Game document created successfully in Firestore");
+            //console.log("Game document created successfully in Firestore");
         })
         .catch((error) => {
             console.error("Error creating game document: ", error);
@@ -245,7 +245,7 @@ class Game {
 
 // Function to update a specific property in Firestore
 async function updateGamePropertyInFirestore(gameId, property, value) {
-    console.log(`Updating property '${property}' to '${value}' for game ID: ${gameId}`);
+    //console.log(`Updating property '${property}' to '${value}' for game ID: ${gameId}`);
     
     const gameRef = doc(db, 'games', gameId);
     const updateData = {};
@@ -253,7 +253,7 @@ async function updateGamePropertyInFirestore(gameId, property, value) {
 
     try {
         await updateDoc(gameRef, updateData);
-        console.log(`Property '${property}' updated successfully in Firestore`);
+        //console.log(`Property '${property}' updated successfully in Firestore`);
     } catch (error) {
         console.error(`Error updating property '${property}' in Firestore:`, error);
     }

@@ -1,38 +1,50 @@
-import { updatePlayerShot,getPlayerPercentage } from "../firebase/firebaseFunctions.js";
+import { updatePlayerShot,undoPlayerShot } from "../firebase/firebaseFunctions.js";
 
 const makeShotBtn = document.getElementById('makeShot');
 const missedShotBtn = document.getElementById('missShot');
+const undoShotBtn = document.getElementById('undoShot');
 const currPlayer = document.getElementById('player-select');
 let previousShotMade = false;
+let shotgunCount = 0;
 
 // ---- MAKE SHOT ---- //
 makeShotBtn.addEventListener('click', function() {
     const playerSelect = document.getElementById('player-select');
     const options = Array.from(playerSelect.options);
     const currentIndex = options.findIndex(option => option.value === currPlayer.value);
-  
 
     // Update the database with the made shot
     let selectedPlayerName = options[currentIndex].text
     selectedPlayerName = selectedPlayerName.replace(/\s+/g, "");
     updatePlayerShot(selectedPlayerName,previousShotMade,true).then((percentage) => {
-        console.log("Player percentage: ", percentage);
         const elemId = options[currentIndex].value + '-percentage';
         document.getElementById(elemId).textContent = percentage;
     });
 
+    // Update the stack
+    stack.push(`${selectedPlayerName},1,${previousShotMade}`);
+
     // Update the shot decteor for potential point
     previousShotMade = true;
+
+    let isShotgun = false;
+    // Reset scoring
+    shotgunCount++;
+    if (shotgunCount == 4) {
+        previousShotMade = false;
+        shotgunCount = 0;
+        isShotgun = true;
+    }
 
     // Go to the next player
     const nextIndex = (currentIndex + 1) % options.length;
     playerSelect.selectedIndex = nextIndex;
 
 // Select random number
-// Grab that gif 
+const number = Math.floor(Math.random() * 13) + 1
+console.log("Random number: " + number);
 // Display gif
-// Wait 2 seconds
-// Hide gif
+showGif(number);
 
   
 });
@@ -75,10 +87,7 @@ missedShotBtn.addEventListener('click', function() {
         }
     }
 
-// Go to next player
-playerSelect.selectedIndex = nextPlayerIndex;
-// Update the shot decteor for potential point
-previousShotMade = false;
+
 
     // Update player data
     let selectedPlayerName = options[currentIndex].text
@@ -89,5 +98,77 @@ previousShotMade = false;
         document.getElementById(elemId).textContent = percentage;
     });
 
+// Update the stack
+stack.push(`${selectedPlayerName},0,${previousShotMade}`);
+
+// Go to next player
+playerSelect.selectedIndex = nextPlayerIndex;
+// Update the shot decteor for potential point
+previousShotMade = false;
+
 });
 
+
+// ---- UNDO SHOT ---- //
+undoShotBtn.addEventListener('click', function() {
+    const playerSelect = document.getElementById('player-select');
+    const options = Array.from(playerSelect.options);
+    const currentIndex = options.findIndex(option => option.value === currPlayer.value);
+    const lastPlayerIndex = (currentIndex + 3) % options.length;
+    const lastlastPlayerIndex = (currentIndex + 2) % options.length;
+
+
+    if (stack.length === 0) {
+        console.log("No actions to undo.");
+        return;
+    }
+
+    const lastAction = stack.pop();
+    const [playerName, shotMade,isRebuttal] = lastAction.split(',');
+
+    console.log(`Undoing action for player: ${playerName}, Shot made: ${shotMade}, Is rebuttal: ${isRebuttal}`);
+    
+    // Reverse the last action in Firestore
+    undoPlayerShot(playerName, shotMade, isRebuttal).then((percentage) => {
+        const playerElemId = `${options[lastPlayerIndex].value}-percentage`;
+        document.getElementById(playerElemId).textContent = percentage;
+
+
+        // Check if the scores need to be updated
+        if (isRebuttal === 'true') {
+            if (shotMade === '0') {
+                const playerScore = document.getElementById(options[lastlastPlayerIndex].value + '-score');
+                playerScore.textContent = parseInt(playerScore.textContent) - 1;
+
+                let team = options[lastlastPlayerIndex].value.split('-')[0];
+                team = `${team}-total-score`;
+                console.log(`undoing this team's score: ${team}`);
+                const teamScore = document.getElementById(team);
+                teamScore.textContent = parseInt(teamScore.textContent) - 1;    
+            }
+
+
+        }
+
+
+    });
+
+    // Go to last player
+    playerSelect.selectedIndex = lastPlayerIndex;
+});
+
+
+async function showGif(number) {
+    const gif = document.getElementById('gif'+number);
+    gif.id = 'gifActive';
+
+
+    console.log("Showing gif: " + number);
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            gif.id = 'gif'+number;
+            resolve();
+        }, 5000); // 5 seconds
+    });
+
+}

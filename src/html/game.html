@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>
+        let stack = [];
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/game.css">
@@ -61,6 +65,7 @@
     </div>
     <button class="shotBtn" id="makeShot">Make Shot</button>
     <button class="shotBtn" id="missShot">Miss Shot</button>
+    <button class="shotBtn" id="undoShot">Undo Shot</button>
 
 <div>
     <label class = "player-select-names" for="team1-player1-name">Team 1 - Player 1:</label>
@@ -83,17 +88,24 @@
     </select>
 </div>
 
-<!--
-<div class="tenor-gif-embed" data-postid="18403386581156044088" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/dua-lipa-fearythings-drinking-seth-myers-gif-18403386581156044088">Dua Lipa Fearythings GIF</a>from <a href="https://tenor.com/search/dua+lipa-gifs">Dua Lipa GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="18464041" data-share-method="host" data-aspect-ratio="0.759375" data-width="100%"><a href="https://tenor.com/view/stepford-wife-gif-18464041">Stepford Wife GIF</a>from <a href="https://tenor.com/search/stepford+wife-gifs">Stepford Wife GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="15099676" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/gif-beer-shotgun-girl-drinking-gif-15099676">Gif Beer GIF</a>from <a href="https://tenor.com/search/gif-gifs">Gif GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="14632628" data-share-method="host" data-aspect-ratio="1.16364" data-width="100%"><a href="https://tenor.com/view/bikini-bounce-beer-shake-gif-14632628">Bikini Bounce GIF</a>from <a href="https://tenor.com/search/bikini-gifs">Bikini GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="15094446" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/blow-beer-shotgun-epic-beer-splash-gif-15094446">Blow Beer GIF</a>from <a href="https://tenor.com/search/blow-gifs">Blow GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="13571487" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/golfing-golf-humor-kandaar-beer-gif-13571487">Golfing Humor GIF</a>from <a href="https://tenor.com/search/golfing-gifs">Golfing GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="13582212531135165654" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/beer-chug-drinking-drink-thirsty-gif-13582212531135165654">Beer Chug GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="14923390" data-share-method="host" data-aspect-ratio="0.5625" data-width="100%"><a href="https://tenor.com/view/beer-drinking-girl-party-time-shotgun-bruschi-gif-14923390">Beer Drinking Girl GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-<div class="tenor-gif-embed" data-postid="4748844" data-share-method="host" data-aspect-ratio="1.78" data-width="100%"><a href="https://tenor.com/view/hot-gif-4748844">Hot GIF</a>from <a href="https://tenor.com/search/hot-gifs">Hot GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
--->
+
+<div id="gif1" class="tenor-gif-embed" data-postid="18403386581156044088" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/dua-lipa-fearythings-drinking-seth-myers-gif-18403386581156044088">Dua Lipa Fearythings GIF</a>from <a href="https://tenor.com/search/dua+lipa-gifs">Dua Lipa GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div id="gif2" class="tenor-gif-embed" data-postid="11457652427580345225" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/it%E2%80%99s-ok-i%E2%80%99m-ok-tate-mcrae-stan-twitter-tate-mcrae-it%E2%80%99s-ok-i%E2%80%99m-ok-chembrina-gif-11457652427580345225">It’s Ok I’m Ok Tate Mcrae GIF</a>from <a href="https://tenor.com/search/it%E2%80%99s+ok+i%E2%80%99m+ok-gifs">It’s Ok I’m Ok GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<img  id="gif3" src="/img/sydneyDownfallsHigh.gif" alt="Jacobian Caps Logo" class="logo"/>
+<div  id="gif4" class="tenor-gif-embed" data-postid="18286414" data-share-method="host" data-aspect-ratio="0.628125" data-width="100%"><a href="https://tenor.com/view/sydney-sweeney-boobs-tits-hot-sexy-gif-18286414">Sydney Sweeney Boobs GIF</a>from <a href="https://tenor.com/search/sydney+sweeney-gifs">Sydney Sweeney GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif5" class="tenor-gif-embed" data-postid="26016818" data-share-method="host" data-aspect-ratio="0.5625" data-width="100%"><a href="https://tenor.com/view/dua-lipa-dance-dua-lipa-strip-dua-lipa-pretty-please-dua-lipa-pretty-pleasee-gif-26016818">Dua Lipa Dance Dua Lipa Strip GIF</a>from <a href="https://tenor.com/search/dua+lipa+dance-gifs">Dua Lipa Dance GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif6" class="tenor-gif-embed" data-postid="18464041" data-share-method="host" data-aspect-ratio="0.759375" data-width="100%"><a href="https://tenor.com/view/stepford-wife-gif-18464041">Stepford Wife GIF</a>from <a href="https://tenor.com/search/stepford+wife-gifs">Stepford Wife GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif7" class="tenor-gif-embed" data-postid="5042637545779157620" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/tate-mcrae-gif-5042637545779157620">Tate Mcrae GIF</a>from <a href="https://tenor.com/search/tate+mcrae-gifs">Tate Mcrae GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif8" class="tenor-gif-embed" data-postid="15099676" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/gif-beer-shotgun-girl-drinking-gif-15099676">Gif Beer GIF</a>from <a href="https://tenor.com/search/gif-gifs">Gif GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif9" class="tenor-gif-embed" data-postid="14632628" data-share-method="host" data-aspect-ratio="1.16364" data-width="100%"><a href="https://tenor.com/view/bikini-bounce-beer-shake-gif-14632628">Bikini Bounce GIF</a>from <a href="https://tenor.com/search/bikini-gifs">Bikini GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif10" class="tenor-gif-embed" data-postid="15094446" data-share-method="host" data-aspect-ratio="0.8" data-width="100%"><a href="https://tenor.com/view/blow-beer-shotgun-epic-beer-splash-gif-15094446">Blow Beer GIF</a>from <a href="https://tenor.com/search/blow-gifs">Blow GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif11" class="tenor-gif-embed" data-postid="13571487" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/golfing-golf-humor-kandaar-beer-gif-13571487">Golfing Humor GIF</a>from <a href="https://tenor.com/search/golfing-gifs">Golfing GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif12" class="tenor-gif-embed" data-postid="13582212531135165654" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/beer-chug-drinking-drink-thirsty-gif-13582212531135165654">Beer Chug GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<div  id="gif13" class="tenor-gif-embed" data-postid="14923390" data-share-method="host" data-aspect-ratio="0.5625" data-width="100%"><a href="https://tenor.com/view/beer-drinking-girl-party-time-shotgun-bruschi-gif-14923390">Beer Drinking Girl GIF</a>from <a href="https://tenor.com/search/beer-gifs">Beer GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+<div  id="gifGuy" class="tenor-gif-embed" data-postid="4748844" data-share-method="host" data-aspect-ratio="1.78" data-width="100%"><a href="https://tenor.com/view/hot-gif-4748844">Hot GIF</a>from <a href="https://tenor.com/search/hot-gifs">Hot GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+
 <script>
     const handleTrueFalseClick = (teamID) => {
         console.log(`${teamID} button clicked`);

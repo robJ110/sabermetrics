@@ -14,7 +14,6 @@ document.getElementById('team1-player1-name').addEventListener('change', functio
 
     // Update the percentage in the UI
     getPlayerPercentage(gameObj._t1p1PlayerId).then((percentage) => {
-        console.log("Player percentage: ", percentage);
         document.getElementById('team1-player1-percentage').textContent = percentage;
     });
 
@@ -32,7 +31,6 @@ document.getElementById('team1-player2-name').addEventListener('change', functio
 
     // Update the percentage in the UI
     getPlayerPercentage(gameObj._t1p2PlayerId).then((percentage) => {
-        console.log("Player percentage: ", percentage);
         document.getElementById('team1-player2-percentage').textContent = percentage;
     });
 });
@@ -49,7 +47,6 @@ document.getElementById('team2-player1-name').addEventListener('change', functio
 
     // Update the percentage in the UI
     getPlayerPercentage(gameObj._t2p1PlayerId).then((percentage) => {
-        console.log("Player percentage: ", percentage);
         document.getElementById('team2-player1-percentage').textContent = percentage;
     });
 });
@@ -66,7 +63,6 @@ document.getElementById('team2-player2-name').addEventListener('change', functio
 
     // Update the percentage in the UI
     getPlayerPercentage(gameObj._t2p2PlayerId).then((percentage) => {
-        console.log("Player percentage: ", percentage);
         document.getElementById('team2-player2-percentage').textContent = percentage;
     });
 });
